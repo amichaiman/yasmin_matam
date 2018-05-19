@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/yasmin_matam.dir/main.c.o CMakeFiles/yasmin_matam.dir/mainFunctions.c.o CMakeFiles/yasmin_matam.dir/animal.c.o CMakeFiles/yasmin_matam.dir/employee.c.o CMakeFiles/yasmin_matam.dir/food.c.o  -o yasmin_matam 
