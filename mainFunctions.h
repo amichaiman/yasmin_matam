@@ -1,7 +1,11 @@
 
 #ifndef YASMIN_MATAM_MAINFUNCTIONS_H
 #define YASMIN_MATAM_MAINFUNCTIONS_H
+
 #include <stdio.h>
+#include "animal.h"
+#include "employee.h"
+#include "food.h"
 
 enum inputOptions{
     animal,
@@ -43,4 +47,6 @@ void printAnimalQueries();
 void printEmployeeQueries();
 void printFoodQueries();
 
+/*  wait for queries from user  */
+void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode *foodRoot);
 #endif
