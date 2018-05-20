@@ -150,6 +150,33 @@ animal.c.s:
 	$(MAKE) -f CMakeFiles/yasmin_matam.dir/build.make CMakeFiles/yasmin_matam.dir/animal.c.s
 .PHONY : animal.c.s
 
+commonFunctions.o: commonFunctions.c.o
+
+.PHONY : commonFunctions.o
+
+# target to build an object file
+commonFunctions.c.o:
+	$(MAKE) -f CMakeFiles/yasmin_matam.dir/build.make CMakeFiles/yasmin_matam.dir/commonFunctions.c.o
+.PHONY : commonFunctions.c.o
+
+commonFunctions.i: commonFunctions.c.i
+
+.PHONY : commonFunctions.i
+
+# target to preprocess a source file
+commonFunctions.c.i:
+	$(MAKE) -f CMakeFiles/yasmin_matam.dir/build.make CMakeFiles/yasmin_matam.dir/commonFunctions.c.i
+.PHONY : commonFunctions.c.i
+
+commonFunctions.s: commonFunctions.c.s
+
+.PHONY : commonFunctions.s
+
+# target to generate assembly for a file
+commonFunctions.c.s:
+	$(MAKE) -f CMakeFiles/yasmin_matam.dir/build.make CMakeFiles/yasmin_matam.dir/commonFunctions.c.s
+.PHONY : commonFunctions.c.s
+
 employee.o: employee.c.o
 
 .PHONY : employee.o
@@ -270,6 +297,9 @@ help:
 	@echo "... animal.o"
 	@echo "... animal.i"
 	@echo "... animal.s"
+	@echo "... commonFunctions.o"
+	@echo "... commonFunctions.i"
+	@echo "... commonFunctions.s"
 	@echo "... employee.o"
 	@echo "... employee.i"
 	@echo "... employee.s"

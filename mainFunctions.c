@@ -17,7 +17,7 @@ void printAnimalQueries(){
                    "5) Average number of children\n"
                    "6) Delete animal\n"
                    "7) Delete all animals\n"
-                   "8) Print animals");
+                   "8) Print animals\n");
 }
 void printEmployeeQueries(){
     printf("EMPLOYEE OPTIONS:\n"

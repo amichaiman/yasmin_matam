@@ -16,17 +16,17 @@ enum animalOptions{
     animalWithGivenColor,
     animalWithGivenBirthYear,
     averageNumberOfChildren,
-    deleteAnimal,
-    deleteAllAnimals,
+    delAnimal,
+    delAllAnimals,
     printAnimals
 };
 
 enum employeeOptions{
-    addAEmployee,
+    addEmployee,
     find,
     print,
-    deleteEmployee,
-    deleteAllEmployees
+    delEmployee,
+    delAllEmployees
 };
 
 enum foodOptions{
