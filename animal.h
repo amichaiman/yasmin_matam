@@ -60,7 +60,7 @@ void printAnimalsForGivenBirthYear(AnimalNode *curNode, int year);
 int animalNumberWithGivenColor(AnimalNode *curNode, char *color);
 
 /*  computes and returns average of kids per animal */
-int averageNumOfChildren(AnimalNode *curNode, int *numNodes);
+float averageNumOfChildren(AnimalNode *curNode, int *numNodes);
 
 /*  receives animal id to delete. returns true if animal was deleted, false otherwise   */
 AnimalNode * deleteAnimal(AnimalNode *root, char *id);

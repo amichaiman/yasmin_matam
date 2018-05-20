@@ -45,14 +45,21 @@ void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode
     char **threeMostPopularFoods = NULL;
 
     printQueryOptions();
-    scanf("%d", &input);
+    if (scanf("%d", &input) != 1){
+        clearBuffer();
+        printf("Invalid input, Try again:\n");
+        
+    }
 
     while (--input != EXIT){
         switch (input) {
             case animal:
                 printAnimalQueries();
-                scanf("%d", &input);
                 do {
+                    if (scanf("%d", &input) != 1){
+                        clearBuffer();
+                        printf("Invalid input, Try again:\n");
+                    }
                     switch (--input) {
                         case addAnimal:
                             addNewAnimal(&animalRoot);
@@ -74,12 +81,15 @@ void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode
                         case animalWithGivenBirthYear:
                             getchar();
                             printf("Enter birth year:\n");
-                            scanf("%d", &input);
+                            if (scanf("%d", &input) != 1){
+                                clearBuffer();
+                                printf("Invalid input, Try again:\n");
+                            }
                             printAnimalsForGivenBirthYear(animalRoot,input);
                             break;
                         case averageNumberOfChildren:
                             input = 0;
-                            printf("Average number of children: %d\n",averageNumOfChildren(animalRoot,&input));
+                            printf("Average number of children: %.2f\n",averageNumOfChildren(animalRoot,&input));
                             break;
                         case delAnimal:
                             getchar();
@@ -102,8 +112,11 @@ void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode
                 break;
             case employee:
                 printEmployeeQueries();
-                scanf("%d", &input);
                 do {
+                    if (scanf("%d", &input) != 1){
+                        clearBuffer();
+                        printf("Invalid input, Try again:\n");
+                    }
                     switch (--input) {
                         case addEmployee:
                             addNewEmployee(&employeeRoot); break;
@@ -137,8 +150,11 @@ void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode
                 break;
             case food:
                 printFoodQueries();
-                scanf("%d", &input);
                 do {
+                    if (scanf("%d", &input) != 1){
+                        clearBuffer();
+                        printf("Invalid input, Try again:\n");
+                    }
                     switch (--input) {
                         case addFood:
                             addNewFood(&foodRoot);
@@ -165,16 +181,24 @@ void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode
                             break;
                         default:
                             printf("Invalid input. Try again:\n");
+
                             break;
                     }
                 } while (input < addFood || input > printFoods);
                 break;
             default:
                 printf("Invalid input: Try again:\n");
+                if (scanf("%d", &input) != 1){
+                    clearBuffer();
+                    printf("Invalid input, Try again:\n");
+                }
                 break;
 
         }
         printQueryOptions();
-        scanf("%d", &input);
+        if (scanf("%d", &input) != 1){
+            clearBuffer();
+            printf("Invalid input, Try again:\n");
+        }
     }
 }

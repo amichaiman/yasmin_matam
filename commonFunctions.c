@@ -1,7 +1,8 @@
 #include "commonFunctions.h"
 
 void clearBuffer() {
-    getchar();
+    char c;
+    while ((c = getchar()) != '\n');
 }
 
 int allDigits(char *s) {

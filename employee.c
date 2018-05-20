@@ -46,8 +46,11 @@ Employee *getEmployeeFromInput() {
     clearBuffer();
 
     printf("Enter number of animals\n");
-
-    while (!(scanf("%d",&employee->numOfAnimals) == 1 && employee->numOfAnimals >= 0 && employee->numOfAnimals<= MAX_NUM_OF_ANIMAL_PER_EMPLOYEE)){
+    if (scanf("%d", &employee->numOfAnimals) != 1){
+        clearBuffer();
+        printf("Invalid input, Try again:\n");
+    }
+    while (!(employee->numOfAnimals >= 0 && employee->numOfAnimals<= MAX_NUM_OF_ANIMAL_PER_EMPLOYEE)){
         printf("Invalid number of animals\n");
     }
 

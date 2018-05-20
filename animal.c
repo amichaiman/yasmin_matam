@@ -97,24 +97,27 @@ void printAnimalsForGivenBirthYear(AnimalNode *curNode, int year) {
     printAnimalsForGivenBirthYear(curNode->right,year);
 }
 
-/*TODO */
-int averageNumOfChildren(AnimalNode *curNode, int *numNodes) {
-    /*int averageLeft;
-    int averageRight;
-    int sumKids;
+float averageNumOfChildren(AnimalNode *curNode, int *numNodes) {
+
+    float averageLeft;
+    float averageRight;
+
+    int numberOfNodesLeft;
+    int numberOfNodesRight;
 
     if (curNode == NULL){
+        *numNodes = 0;
         return 0;
     }
 
-    *numNodes++;
+    averageLeft = averageNumOfChildren(curNode->left,&numberOfNodesLeft);
+    averageRight = averageNumOfChildren(curNode->right,&numberOfNodesRight);
 
-    averageLeft = averageNumOfChildren(curNode->left,numNodes);
-    averageRight = averageNumOfChildren(curNode->right,numNodes);
+    *numNodes = numberOfNodesLeft + numberOfNodesRight + 1;
 
-    sumKids = averageLeft + averageRight + curNode->animal->ki
 
-    return sumKids/(*numNodes);*/
+    return (averageLeft*numberOfNodesLeft + averageRight*numberOfNodesRight +
+            curNode->animal->numberOfKids)/(*numNodes);
 }
 
 AnimalNode * animalFindMin(AnimalNode *t, AnimalNode **parent) {
@@ -300,8 +303,6 @@ Animal *getAnimalFromInput() {
         animal->date[strcspn(animal->date,"\n")] = '\0';
     }
 
-    clearBuffer();
-
     printf("Enter birth location:\n");
     fgets(inputString,MAX_INPUT,stdin);
     inputString[strcspn(inputString,"\n")] = '\0';
@@ -312,18 +313,23 @@ Animal *getAnimalFromInput() {
     if (!animal->birthLocation){
         exit(1);
     }
-
+    clearBuffer();
     printf("Enter health status\n");
-
-
-    while (!(scanf("%d",&animal->healthStatus) ==1 && animal->healthStatus >= MIN_HEALTH_STATUS && animal->healthStatus <= MAX_HEALTH_STATUS)){
-        printf("Invlid health status\n");
+    if (scanf("%d", &animal->healthStatus) != 1){
+        clearBuffer();
+        printf("Invalid input, Try again:\n");
     }
-
+    while (!(animal->healthStatus >= MIN_HEALTH_STATUS && animal->healthStatus <= MAX_HEALTH_STATUS)){
+        printf("Invalid health status\n");
+    }
+    clearBuffer();
     printf("Enter number of kids\n");
-
-    while (!(scanf("%d",&animal->numberOfKids) == 1 && animal->numberOfKids >= 0 && animal->numberOfKids <= MAX_NUM_OF_KIDS)){
-        printf("Invlid number of kids\n");
+    if (scanf("%d", &animal->numberOfKids) != 1){
+        clearBuffer();
+        printf("Invalid input, Try again:\n");
+    }
+    while (!(animal->numberOfKids >= 0 && animal->numberOfKids <= MAX_NUM_OF_KIDS)){
+        printf("Invalid number of kids\n");
     }
     clearBuffer();
 
@@ -337,18 +343,19 @@ Animal *getAnimalFromInput() {
     printf("Enter food type\n");
     fgets(animal->foodType,FOOD_TYPE+1,stdin);
     animal->foodType[strcspn(animal->foodType,"\n")] = '\0';
-    clearBuffer();
 
     while (strlen(animal->foodType) != FOOD_TYPE && allDigits(animal->foodType)){
         printf("invlid input. food type must be %d numbers long\n", FOOD_TYPE);
         fgets(animal->foodType,FOOD_TYPE+1,stdin);
         animal->foodType[strcspn(animal->foodType,"\n")] = '\0';
-        clearBuffer();
     }
-
+    clearBuffer();
     printf("Enter number of meals per day:\n");
-
-    while (!(scanf("%d", &animal->numberOfMealsPerDays) == 1 && animal->numberOfMealsPerDays >= 0 && animal->numberOfMealsPerDays <= MAX_MEALS_PER_DAY)){
+    if (scanf("%d", &animal->numberOfMealsPerDays) != 1){
+        clearBuffer();
+        printf("Invalid input, Try again:\n");
+    }
+    while (!(animal->numberOfMealsPerDays >= 0 && animal->numberOfMealsPerDays <= MAX_MEALS_PER_DAY)){
         printf("Invlid number of meals\n");
     }
 

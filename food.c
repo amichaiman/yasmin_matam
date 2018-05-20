@@ -35,13 +35,19 @@ Food *getFoodFromInput() {
     strcpy(food->manufacturer,inputString);
 
     printf("Enter number of bags in supply:\n");
-
-    while (!(scanf("%d",&food->numOfBagsInSupply) == 1 && food->numOfBagsInSupply >= 0 && food->numOfBagsInSupply <= MAX_BAGS_IN_SUPPLY)){
+    if (scanf("%d", &food->numOfBagsInSupply) != 1){
+        clearBuffer();
+        printf("Invalid input, Try again:\n");
+    }
+    while (!(food->numOfBagsInSupply >= 0 && food->numOfBagsInSupply <= MAX_BAGS_IN_SUPPLY)){
         printf("Invlid number of bags in supply\n");
     }
     printf("Enter number of bags size:\n");
-
-    while (!(scanf("%f",&food->bagSize) == 1 && food->bagSize >= MIN_BAG_SIZE && food->bagSize <= MAX_BAG_SIZE)){
+    if (scanf("%f", &food->bagSize) != 1){
+        clearBuffer();
+        printf("Invalid input, Try again:\n");
+    }
+    while (!(food->bagSize >= MIN_BAG_SIZE && food->bagSize <= MAX_BAG_SIZE)){
         printf("Invlid bag size\n");
     }
 
