@@ -31,9 +31,10 @@ enum employeeOptions{
 
 enum foodOptions{
     addFood,
-    threePopularFoods,
-    deleteFood,
-    deleteAllFoods
+    threePopFoods,
+    delFood,
+    delAllFoods,
+    printFoods
 };
 
 /*  print options for user  */

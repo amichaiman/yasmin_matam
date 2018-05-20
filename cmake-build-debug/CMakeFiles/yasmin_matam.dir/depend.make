@@ -3,15 +3,24 @@
 
 CMakeFiles/yasmin_matam.dir/animal.c.o: ../animal.c
 CMakeFiles/yasmin_matam.dir/animal.c.o: ../animal.h
+CMakeFiles/yasmin_matam.dir/animal.c.o: ../commonFunctions.h
+CMakeFiles/yasmin_matam.dir/animal.c.o: ../food.h
+
+CMakeFiles/yasmin_matam.dir/commonFunctions.c.o: ../commonFunctions.c
+CMakeFiles/yasmin_matam.dir/commonFunctions.c.o: ../commonFunctions.h
 
 CMakeFiles/yasmin_matam.dir/employee.c.o: ../animal.h
+CMakeFiles/yasmin_matam.dir/employee.c.o: ../commonFunctions.h
 CMakeFiles/yasmin_matam.dir/employee.c.o: ../employee.c
 CMakeFiles/yasmin_matam.dir/employee.c.o: ../employee.h
+CMakeFiles/yasmin_matam.dir/employee.c.o: ../food.h
 
+CMakeFiles/yasmin_matam.dir/food.c.o: ../commonFunctions.h
 CMakeFiles/yasmin_matam.dir/food.c.o: ../food.c
 CMakeFiles/yasmin_matam.dir/food.c.o: ../food.h
 
 CMakeFiles/yasmin_matam.dir/main.c.o: ../animal.h
+CMakeFiles/yasmin_matam.dir/main.c.o: ../commonFunctions.h
 CMakeFiles/yasmin_matam.dir/main.c.o: ../employee.h
 CMakeFiles/yasmin_matam.dir/main.c.o: ../food.h
 CMakeFiles/yasmin_matam.dir/main.c.o: ../main.c

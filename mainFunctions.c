@@ -32,5 +32,6 @@ void printFoodQueries(){
                    "1) Add food\n"
                    "2) Three popular foods\n"
                    "3) Delete food\n"
-                   "4) Delete all foods\n");
+                   "4) Delete all foods\n"
+                   "5) Print foods\n");
 }

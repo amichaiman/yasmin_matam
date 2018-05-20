@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "food.h"
 #include "commonFunctions.h"
 
 #define ANIMAL_ID_LENGTH 5
@@ -15,6 +16,7 @@
 #define MAX_MEALS_PER_DAY 10
 #define DATE_LENGTH 10
 #define MAX_INPUT 30
+#define NUMBER_OF_POP_FOODS 3
 #define FALSE 0
 #define TRUE 1
 
@@ -74,4 +76,6 @@ AnimalNode * animalFind(AnimalNode *curNode, char *id, AnimalNode **parent);
 
 void deleteAllAnimals(AnimalNode *curNode);
 
+/*  returns string array containing 3 most popular food's ids*/
+char **threePopularFoods(AnimalNode *root);
 #endif

@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include "animal.h"
+#include "food.h"
 
 Animal *getAnimalFromInput();
 
@@ -14,6 +15,10 @@ void printAnimal(Animal *animal);
 void clearBuffer();
 
 void freeAnimal(AnimalNode *node);
+
+FoodListNode *getFoodTypeListNode(FoodListNode *list, char *foodId);
+
+void sortList(FoodList *list);
 
 AnimalNode *createAnimalTree() {
     return NULL;
@@ -275,24 +280,24 @@ Animal *getAnimalFromInput() {
 
     printf("Enter id:\n");
     fgets(animal->id,ANIMAL_ID_LENGTH+1,stdin);
-    inputString[strcspn(animal->id,"\n")] = '\0';
+    animal->id[strcspn(animal->id,"\n")] = '\0';
 
     while (!allDigits(animal->id)){
         printf("Invalid input. Try again:\n");
         fgets(animal->id,ANIMAL_ID_LENGTH+1,stdin);
-        inputString[strcspn(animal->id,"\n")] = '\0';
+        animal->id[strcspn(animal->id,"\n")] = '\0';
     }
 
     clearBuffer();
 
     printf("Enter animal birth date:\n");
     fgets(animal->date,DATE_LENGTH+1,stdin);
-    inputString[strcspn(animal->date,"\n")] = '\0';
+    animal->date[strcspn(animal->date,"\n")] = '\0';
 
     while (strlen(animal->date) != DATE_LENGTH){
         printf("Invaid input. Try again:\n");
         fgets(animal->date,DATE_LENGTH+1,stdin);
-        inputString[strcspn(animal->date,"\n")] = '\0';
+        animal->date[strcspn(animal->date,"\n")] = '\0';
     }
 
     clearBuffer();
@@ -325,18 +330,19 @@ Animal *getAnimalFromInput() {
     for (i=0; i<animal->numberOfKids; i++){
         printf("enter kid id\n");
         fgets(animal->kidsId[i],ANIMAL_ID_LENGTH+1,stdin);
-        inputString[strcspn(animal->kidsId[i],"\n")] = '\0';
+        animal->kidsId[i][strcspn(animal->kidsId[i],"\n")] = '\0';
         clearBuffer();
     }
 
     printf("Enter food type\n");
     fgets(animal->foodType,FOOD_TYPE+1,stdin);
-    inputString[strcspn(animal->foodType,"\n")] = '\0';
+    animal->foodType[strcspn(animal->foodType,"\n")] = '\0';
     clearBuffer();
+
     while (strlen(animal->foodType) != FOOD_TYPE && allDigits(animal->foodType)){
         printf("invlid input. food type must be %d numbers long\n", FOOD_TYPE);
         fgets(animal->foodType,FOOD_TYPE+1,stdin);
-        inputString[strcspn(animal->foodType,"\n")] = '\0';
+        animal->foodType[strcspn(animal->foodType,"\n")] = '\0';
         clearBuffer();
     }
 
@@ -349,5 +355,103 @@ Animal *getAnimalFromInput() {
     return animal;
 }
 
+/*   created linked list with each food type, and how often it appears   */
+void getFoodCount(AnimalNode *curNode, FoodList *list){
+    FoodListNode *currentAnimalsFood;
 
+    if (curNode == NULL){
+        return;
+    }
+
+    currentAnimalsFood = getFoodTypeListNode(list->head,curNode->animal->foodType);
+
+    if (currentAnimalsFood == NULL) {
+        currentAnimalsFood = (FoodListNode *) malloc (sizeof(FoodListNode));
+        strcpy(currentAnimalsFood->id,curNode->animal->foodType);
+        currentAnimalsFood->count = 1;
+        currentAnimalsFood->next = list->head;
+        list->head = currentAnimalsFood;
+    } else {
+        currentAnimalsFood->count++;
+    }
+    getFoodCount(curNode->left,list);
+    getFoodCount(curNode->right,list);
+
+}
+
+FoodListNode *getFoodTypeListNode(FoodListNode *curNode, char *foodId) {
+    if (curNode == NULL) {
+        return NULL;
+    }
+
+    if (strcmp(curNode->id,foodId) == 0){
+        return curNode;
+    }
+
+    return getFoodTypeListNode(curNode->next,foodId);
+
+}
+
+char **threePopularFoods(AnimalNode *root){
+    FoodList list;
+    char **arrayOfPopularFoods;
+    int i;
+    FoodListNode *curNode;
+    list.head = NULL;
+
+
+    getFoodCount(root,&list);
+    sortList(&list);
+
+    curNode = list.head;
+
+    arrayOfPopularFoods = (char **) malloc(NUMBER_OF_POP_FOODS* sizeof(char *));
+
+    if (curNode == NULL){
+        curNode = (FoodListNode*) malloc(sizeof(FoodListNode));
+        strcpy(curNode->id,"NO FOODS FOUND");
+    }
+    for (i=0; i<NUMBER_OF_POP_FOODS; i++){
+        arrayOfPopularFoods[i] = (char *) malloc((FOOD_ID_LENGTH+1) * sizeof (char));
+        strcpy(arrayOfPopularFoods[i],curNode->id);
+        if (curNode->next != NULL) {
+            curNode = curNode->next;
+        }
+    }
+    return arrayOfPopularFoods;
+}
+
+void addNode(FoodList *list, FoodListNode *toAdd){
+    FoodListNode *curNode = list->head;
+
+    if (list->head == NULL){
+        list->head = toAdd;
+        return;
+    }
+
+    while (curNode->next != NULL){
+        if (strcmp(curNode->next->id,toAdd->id) < 0){
+            toAdd->next = curNode->next;
+            curNode->next = toAdd;
+            return;
+        }
+        curNode = curNode->next;
+    }
+
+    curNode->next = toAdd;
+    toAdd->next = NULL;
+}
+
+void sortList(FoodList *list) {
+    FoodListNode *curNode;
+    FoodList temp;
+    temp.head = NULL;
+
+    while (list->head != NULL){
+        curNode = list->head;
+        list->head = curNode->next;
+        addNode(&temp,curNode);
+    }
+    list->head = temp.head;
+}
 

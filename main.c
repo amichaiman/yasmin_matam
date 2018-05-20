@@ -6,10 +6,12 @@
 
 
 
+
 int main() {
     int input;
+    int i;
     char stringInput[MAX_INPUT];
-
+    char **threeMostPopularFoods = NULL;
     AnimalNode *animalRoot;
     EmployeeNode *employeeRoot;
     FoodNode *foodRoot;
@@ -116,18 +118,33 @@ int main() {
                 do {
                     switch (--input) {
                         case addFood:
+                            addNewFood(&foodRoot);
                             break;
-                        case threePopularFoods:
+                        case threePopFoods:
+                            threeMostPopularFoods = threePopularFoods(animalRoot);
+                            for (i=0; i<NUMBER_OF_POP_FOODS; i++){
+                                printf("%d) %s\n",i+1,threeMostPopularFoods[i]);
+                            }
                             break;
-                        case deleteFood:
+                        case delFood:
+                            getchar();
+                            printf("Enter food's id:\n");
+                            fgets(stringInput,MAX_INPUT,stdin);
+                            stringInput[strcspn(stringInput,"\n")] = '\0';
+                            foodRoot = deleteFood(foodRoot,stringInput);
                             break;
-                        case deleteAllFoods:
+                        case delAllFoods:
+                            deleteAllFoods(foodRoot);
+                            foodRoot = NULL;
+                            break;
+                        case printFoods:
+                            printFoodTree(foodRoot);
                             break;
                         default:
                             printf("Invalid input. Try again:\n");
                             break;
                     }
-                } while (input < addFood || input > deleteAllFoods);
+                } while (input < addFood || input > printFoods);
                 break;
             default:
                 printf("Invalid input: Try again:\n");

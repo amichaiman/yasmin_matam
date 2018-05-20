@@ -35,12 +35,12 @@ Employee *getEmployeeFromInput() {
 
     printf("Enter id:\n");
     fgets(employee->id,EMPLOYEE_ID_LENGTH+1,stdin);
-    inputString[strcspn(employee->id,"\n")] = '\0';
+    employee->id[strcspn(employee->id,"\n")] = '\0';
 
     while (!allDigits(employee->id)){
         printf("Invalid input. Try again:\n");
         fgets(employee->id,EMPLOYEE_ID_LENGTH+1,stdin);
-        inputString[strcspn(employee->id,"\n")] = '\0';
+        employee->id[strcspn(employee->id,"\n")] = '\0';
     }
 
     clearBuffer();
@@ -58,19 +58,19 @@ Employee *getEmployeeFromInput() {
         employee->animalId[i] = (char *) malloc ((ANIMAL_ID_LENGTH+1)* sizeof(char));
         printf("enter animal id:\n");
         fgets(employee->animalId[i],ANIMAL_ID_LENGTH+1,stdin);
-        inputString[strcspn(employee->animalId[i],"\n")] = '\0';
+        employee->animalId[i][strcspn(employee->animalId[i],"\n")] = '\0';
         clearBuffer();
     }
 
     printf("Enter start date\n");
     fgets(employee->startDate,DATE_LENGTH+1,stdin);
-    inputString[strcspn(employee->startDate,"\n")] = '\0';
+    employee->startDate[strcspn(employee->startDate,"\n")] = '\0';
     clearBuffer();
 
     while (strlen(employee->startDate) != DATE_LENGTH){
         printf("Invaid input. Try again:\n");
         fgets(employee->startDate,DATE_LENGTH+1,stdin);
-        inputString[strcspn(employee->startDate,"\n")] = '\0';
+        employee->startDate[strcspn(employee->startDate,"\n")] = '\0';
     }
 
 
@@ -194,6 +194,7 @@ EmployeeList *findEmployee(EmployeeNode *root) {
                 scanf("%d",&input);
         }
     } while (input < 1 || input > 2);
+    return NULL;
 }
 
 void printEmployeeList(EmployeeListNode *curNode){
@@ -255,6 +256,7 @@ void freeEmployee(EmployeeNode *node) {
         free(node->employee->animalId[i]);
     }
     free(node->employee->animalId);
+    free(node->employee);
     free(node);
 }
 

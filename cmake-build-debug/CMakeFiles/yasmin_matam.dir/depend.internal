@@ -4,15 +4,24 @@
 CMakeFiles/yasmin_matam.dir/animal.c.o
  /home/amichai/CLionProjects/yasmin_matam/animal.c
  /home/amichai/CLionProjects/yasmin_matam/animal.h
+ /home/amichai/CLionProjects/yasmin_matam/commonFunctions.h
+ /home/amichai/CLionProjects/yasmin_matam/food.h
+CMakeFiles/yasmin_matam.dir/commonFunctions.c.o
+ /home/amichai/CLionProjects/yasmin_matam/commonFunctions.c
+ /home/amichai/CLionProjects/yasmin_matam/commonFunctions.h
 CMakeFiles/yasmin_matam.dir/employee.c.o
  /home/amichai/CLionProjects/yasmin_matam/animal.h
+ /home/amichai/CLionProjects/yasmin_matam/commonFunctions.h
  /home/amichai/CLionProjects/yasmin_matam/employee.c
  /home/amichai/CLionProjects/yasmin_matam/employee.h
+ /home/amichai/CLionProjects/yasmin_matam/food.h
 CMakeFiles/yasmin_matam.dir/food.c.o
+ /home/amichai/CLionProjects/yasmin_matam/commonFunctions.h
  /home/amichai/CLionProjects/yasmin_matam/food.c
  /home/amichai/CLionProjects/yasmin_matam/food.h
 CMakeFiles/yasmin_matam.dir/main.c.o
  /home/amichai/CLionProjects/yasmin_matam/animal.h
+ /home/amichai/CLionProjects/yasmin_matam/commonFunctions.h
  /home/amichai/CLionProjects/yasmin_matam/employee.h
  /home/amichai/CLionProjects/yasmin_matam/food.h
  /home/amichai/CLionProjects/yasmin_matam/main.c
