@@ -40,10 +40,10 @@ Employee *findEmployeeById(Node *curNode, char string[30]);
 List * findEmployee(Node *root);
 
 /*  prints given employee list  */
-void printEmployeeList(EmployeeListNode *curNode);
+void printEmployeeList(ListNode *curNode);
 
 /*  free list   */
-void freeList(EmployeeList *l);
+void freeList(List *l);
 
 
 int compareEmployee(void* e1, void * e2);

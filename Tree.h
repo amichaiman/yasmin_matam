@@ -1,6 +1,3 @@
-//
-// Created by amichai on 19/06/18.
-//
 
 #ifndef YASMIN_MATAM_TREE_H
 #define YASMIN_MATAM_TREE_H
@@ -29,4 +26,4 @@ Node* addNodeToTree(Node *curNode, void *data, int(*compare)(void *, void *));
 void deleteAllNodes(Node *curNode,void(*freeNode)(Node*));
 void printTree(Node *curNode,void(*printData)(void*));
 Node ** fillArrayWithNodes(Node *root);
-#endif //YASMIN_MATAM_TREE_H
+#endif

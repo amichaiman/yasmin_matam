@@ -105,7 +105,7 @@ void printEmployee(void *data) {
     printf("------------------------------------------------\n");
 }
 
-void addEmployeeWithGivenNumberOfEmployeesRec(EmployeeList **list, Node *curNode, int numberOfEmployees) {
+void addEmployeeWithGivenNumberOfEmployeesRec(List **list, Node *curNode, int numberOfEmployees) {
     if (curNode == NULL){
         return;
     }
@@ -114,9 +114,9 @@ void addEmployeeWithGivenNumberOfEmployeesRec(EmployeeList **list, Node *curNode
     addEmployeeWithGivenNumberOfEmployeesRec(list,curNode->left,numberOfEmployees);
 
     if (((Employee*)curNode->data)->numOfAnimals== numberOfEmployees){
-        EmployeeListNode *newNode = (EmployeeListNode*) malloc(sizeof(EmployeeListNode));
+        ListNode *newNode = (ListNode*) malloc(sizeof(ListNode));
 
-        newNode->employee = (Employee*)curNode->data;
+        newNode->data = curNode->data;
         newNode->next = (*list)->head;
         (*list)->head = newNode;
     }
@@ -126,9 +126,9 @@ List *findEmployee(Node *root) {
     int input;
     int numberOfEmployees;
     char stringInput[MAX];
-    Employee *e;
-
-    EmployeeList *list = (EmployeeList*) malloc (sizeof(EmployeeList));
+    Node node;
+    Employee employee;
+    List *list = (List*) malloc (sizeof(List));
     list->head = NULL;
 
     printf("1) find by id.\n2) find by number of employees\n");
@@ -140,8 +140,6 @@ List *findEmployee(Node *root) {
                 printf("Enter id:\n");
                 fgets(stringInput,MAX,stdin);
                 stringInput[strcspn(stringInput,"\n")] = '\0';
-                Node node;
-                Employee employee;
                 strcpy(employee.id,stringInput);
                 node.data = (void*)&employee;
                 return findNode(NULL,root,&node,compareEmployee);
@@ -158,11 +156,11 @@ List *findEmployee(Node *root) {
     return NULL;
 }
 
-void printEmployeeList(EmployeeListNode *curNode){
+void printEmployeeList(ListNode *curNode){
     if (curNode == NULL){
         return;
     }
-    printEmployee(curNode->employee);
+    printEmployee(curNode->data);
     printEmployeeList(curNode->next);
 }
 
@@ -183,8 +181,8 @@ void freeEmployee(Node *node) {
     free(node);
 }
 
-void freeList(EmployeeList *l){
-    EmployeeListNode *toDelete;
+void freeList(List *l){
+    ListNode *toDelete;
 
     if (l->head == NULL){
         free(l);

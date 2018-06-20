@@ -1,6 +1,3 @@
-//
-// Created by amichai on 19/06/18.
-//
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -207,7 +204,7 @@ void treeToArray(Node *curNode, Node **array, int *locationInArray) {
     }
     treeToArray(curNode->left, array, locationInArray);
 
-    array[(*locationInArray)++] = curNode;  //add node to array
+    array[(*locationInArray)++] = curNode; 
 
     treeToArray(curNode->right, array, locationInArray);
 }

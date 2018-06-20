@@ -38,17 +38,20 @@ void printFoodQueries(){
 
 
 void getUserQueries(Node *animalRoot, Node *employeeRoot, Node *foodRoot) {
-    EmployeeList *list;
+    List *list;
     int input;
     int i;
     char stringInput[MAX];
     char **threeMostPopularFoods = NULL;
-
+    Node* NodetoFind;
+    Animal *animalToFind;
+    Employee emp;
+    Food food1;
     printQueryOptions();
     if (scanf("%d", &input) != 1){
         clearBuffer();
         printf("Invalid input, Try again:\n");
-        
+
     }
 
     while (--input != EXIT){
@@ -96,9 +99,9 @@ void getUserQueries(Node *animalRoot, Node *employeeRoot, Node *foodRoot) {
                             printf("Enter animal's id:\n");
                             fgets(stringInput,MAX,stdin);
                             stringInput[strcspn(stringInput,"\n")] = '\0';
-                            Node* NodetoFind = (Node*) malloc (sizeof(Node));
+                            NodetoFind = (Node*) malloc (sizeof(Node));
                             NodetoFind->left = NodetoFind->right = NULL;
-                            Animal *animalToFind = (Animal*) malloc (sizeof(Animal));
+                            animalToFind = (Animal*) malloc (sizeof(Animal));
                             strcpy(animalToFind->id,stringInput);
                             animalRoot = deleteNode(animalRoot, animalToFind,compareAnimal,freeAnimal);
                             break;
@@ -127,7 +130,7 @@ void getUserQueries(Node *animalRoot, Node *employeeRoot, Node *foodRoot) {
                         case find:
                             list = findEmployee(employeeRoot);
                             if (!list){
-                                printf("No employee found\n");
+                                printf("No emp found\n");
                             } else {
                                 printEmployeeList(list->head);
                             }
@@ -137,12 +140,12 @@ void getUserQueries(Node *animalRoot, Node *employeeRoot, Node *foodRoot) {
                             printTree(employeeRoot,printEmployee); break;
                         case delEmployee:
                             getchar();
-                            printf("Enter employee's id:\n");
+
+                            printf("Enter emp's id:\n");
                             fgets(stringInput,MAX,stdin);
                             stringInput[strcspn(stringInput,"\n")] = '\0';
-                            Employee employee;
-                            strcpy(employee.id,stringInput);
-                            employeeRoot = deleteNode(employeeRoot, (void*)&employee,compareEmployee,freeEmployee);
+                            strcpy(emp.id,stringInput);
+                            employeeRoot = deleteNode(employeeRoot, (void*)&emp,compareEmployee,freeEmployee);
                             break;
                         case delAllEmployees:
                             deleteAllNodes(employeeRoot,freeEmployee);
@@ -176,7 +179,6 @@ void getUserQueries(Node *animalRoot, Node *employeeRoot, Node *foodRoot) {
                             printf("Enter food's id:\n");
                             fgets(stringInput,MAX,stdin);
                             stringInput[strcspn(stringInput,"\n")] = '\0';
-                            Food food1;
                             strcpy(food1.id,stringInput);
                             foodRoot = deleteNode(foodRoot,(void*)&food1,compareFood,freeFood);
                             break;
