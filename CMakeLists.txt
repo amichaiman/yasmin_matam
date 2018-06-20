@@ -3,4 +3,4 @@ project(yasmin_matam C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(yasmin_matam main.c mainFunctions.c mainFunctions.h animal.c employee.c food.c animal.h employee.h food.h commonFunctions.c commonFunctions.h)
+add_executable(yasmin_matam main.c mainFunctions.c mainFunctions.h animal.c employee.c food.c animal.h employee.h food.h commonFunctions.c commonFunctions.h Tree.c Tree.h)

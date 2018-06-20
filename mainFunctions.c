@@ -37,11 +37,11 @@ void printFoodQueries(){
 }
 
 
-void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode *foodRoot) {
+void getUserQueries(Node *animalRoot, Node *employeeRoot, Node *foodRoot) {
     EmployeeList *list;
     int input;
     int i;
-    char stringInput[MAX_INPUT];
+    char stringInput[MAX];
     char **threeMostPopularFoods = NULL;
 
     printQueryOptions();
@@ -67,14 +67,14 @@ void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode
                         case animalWithGivenFoodType:
                             getchar();
                             printf("Enter food to check:\n");
-                            fgets(stringInput,MAX_INPUT,stdin);
+                            fgets(stringInput,MAX,stdin);
                             stringInput[strcspn(stringInput,"\n")] = '\0';
                             printf("Number of animals with %s food type: %d\n",stringInput,animalNumberWithGivenFoodKind(animalRoot,stringInput));
                             break;
                         case animalWithGivenColor:
                             getchar();
                             printf("Enter color to check:\n");
-                            fgets(stringInput,MAX_INPUT,stdin);
+                            fgets(stringInput,MAX,stdin);
                             stringInput[strcspn(stringInput,"\n")] = '\0';
                             printf("Number of animals with %s color : %d\n",stringInput,animalNumberWithGivenColor(animalRoot,stringInput));
                             break;
@@ -89,21 +89,25 @@ void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode
                             break;
                         case averageNumberOfChildren:
                             input = 0;
-                            printf("Average number of children: %.2f\n",averageNumOfChildren(animalRoot,&input));
+                            printf("Average number of children: %.2f\n",averageKey(animalRoot,&input,getNumberOfKids));
                             break;
                         case delAnimal:
                             getchar();
                             printf("Enter animal's id:\n");
-                            fgets(stringInput,MAX_INPUT,stdin);
+                            fgets(stringInput,MAX,stdin);
                             stringInput[strcspn(stringInput,"\n")] = '\0';
-                            animalRoot = deleteAnimal(animalRoot, stringInput);
+                            Node* NodetoFind = (Node*) malloc (sizeof(Node));
+                            NodetoFind->left = NodetoFind->right = NULL;
+                            Animal *animalToFind = (Animal*) malloc (sizeof(Animal));
+                            strcpy(animalToFind->id,stringInput);
+                            animalRoot = deleteNode(animalRoot, animalToFind,compareAnimal,freeAnimal);
                             break;
                         case delAllAnimals:
-                            deleteAllAnimals(animalRoot);
+                            deleteAllNodes(animalRoot,freeAnimal);
                             animalRoot = NULL;
                             break;
                         case printAnimals:
-                            printAnimalTree(animalRoot); break;
+                            printTree(animalRoot,printAnimal); break;
                         default:
                             printf("Invalid input. Try again:\n");
                             break;
@@ -130,16 +134,18 @@ void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode
                             freeList(list);
                             break;
                         case print:
-                            printEmployeeTree(employeeRoot); break;
+                            printTree(employeeRoot,printEmployee); break;
                         case delEmployee:
                             getchar();
                             printf("Enter employee's id:\n");
-                            fgets(stringInput,MAX_INPUT,stdin);
+                            fgets(stringInput,MAX,stdin);
                             stringInput[strcspn(stringInput,"\n")] = '\0';
-                            employeeRoot = deleteEmployee(employeeRoot, stringInput);
+                            Employee employee;
+                            strcpy(employee.id,stringInput);
+                            employeeRoot = deleteNode(employeeRoot, (void*)&employee,compareEmployee,freeEmployee);
                             break;
                         case delAllEmployees:
-                            deleteAllEmployees(employeeRoot);
+                            deleteAllNodes(employeeRoot,freeEmployee);
                             employeeRoot = NULL;
                             break;
                         default:
@@ -168,16 +174,18 @@ void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode
                         case delFood:
                             getchar();
                             printf("Enter food's id:\n");
-                            fgets(stringInput,MAX_INPUT,stdin);
+                            fgets(stringInput,MAX,stdin);
                             stringInput[strcspn(stringInput,"\n")] = '\0';
-                            foodRoot = deleteFood(foodRoot,stringInput);
+                            Food food1;
+                            strcpy(food1.id,stringInput);
+                            foodRoot = deleteNode(foodRoot,(void*)&food1,compareFood,freeFood);
                             break;
                         case delAllFoods:
-                            deleteAllFoods(foodRoot);
+                            deleteAllNodes(foodRoot,freeFood);
                             foodRoot = NULL;
                             break;
                         case printFoods:
-                            printFoodTree(foodRoot);
+                            printTree(foodRoot,printFood);
                             break;
                         default:
                             printf("Invalid input. Try again:\n");

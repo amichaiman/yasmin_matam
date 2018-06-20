@@ -123,6 +123,33 @@ yasmin_matam/fast:
 	$(MAKE) -f CMakeFiles/yasmin_matam.dir/build.make CMakeFiles/yasmin_matam.dir/build
 .PHONY : yasmin_matam/fast
 
+Tree.o: Tree.c.o
+
+.PHONY : Tree.o
+
+# target to build an object file
+Tree.c.o:
+	$(MAKE) -f CMakeFiles/yasmin_matam.dir/build.make CMakeFiles/yasmin_matam.dir/Tree.c.o
+.PHONY : Tree.c.o
+
+Tree.i: Tree.c.i
+
+.PHONY : Tree.i
+
+# target to preprocess a source file
+Tree.c.i:
+	$(MAKE) -f CMakeFiles/yasmin_matam.dir/build.make CMakeFiles/yasmin_matam.dir/Tree.c.i
+.PHONY : Tree.c.i
+
+Tree.s: Tree.c.s
+
+.PHONY : Tree.s
+
+# target to generate assembly for a file
+Tree.c.s:
+	$(MAKE) -f CMakeFiles/yasmin_matam.dir/build.make CMakeFiles/yasmin_matam.dir/Tree.c.s
+.PHONY : Tree.c.s
+
 animal.o: animal.c.o
 
 .PHONY : animal.o
@@ -294,6 +321,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... yasmin_matam"
+	@echo "... Tree.o"
+	@echo "... Tree.i"
+	@echo "... Tree.s"
 	@echo "... animal.o"
 	@echo "... animal.i"
 	@echo "... animal.s"

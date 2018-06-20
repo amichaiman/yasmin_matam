@@ -1,18 +1,14 @@
 #include "employee.h"
 
-EmployeeNode *createEmployeeTree() {
-    return NULL;
-}
-
 Employee *getEmployeeFromInput() {
     Employee *employee = (Employee *) malloc (sizeof(Employee));
-    char inputString[MAX_INPUT];
+    char inputString[MAX];
     int i;
 
     clearBuffer();
 
     printf("Enter first name:\n");
-    fgets(inputString,MAX_INPUT,stdin);
+    fgets(inputString,MAX,stdin);
     inputString[strcspn(inputString,"\n")] = '\0';
 
     employee->firstName = (char *) malloc ((strlen(inputString)+1)* sizeof(char));
@@ -23,7 +19,7 @@ Employee *getEmployeeFromInput() {
     }
 
     printf("Enter last name:\n");
-    fgets(inputString,MAX_INPUT,stdin);
+    fgets(inputString,MAX,stdin);
     inputString[strcspn(inputString,"\n")] = '\0';
 
     employee->lastName= (char *) malloc ((strlen(inputString)+1)* sizeof(char));
@@ -80,42 +76,22 @@ Employee *getEmployeeFromInput() {
     return employee;
 }
 
-EmployeeNode * insertEmployeeToTree(EmployeeNode *curNode, Employee *employeeToAdd) {
-    if (curNode == NULL){
-        EmployeeNode* nodeToAdd = (EmployeeNode*) malloc (sizeof(EmployeeNode));
-        if (!nodeToAdd){
-            exit(1);
-        }
-        nodeToAdd->employee = employeeToAdd;
-        nodeToAdd->left = nodeToAdd->right = NULL;
-        return nodeToAdd;
-    }
 
-    if (strcmp(curNode->employee->id,employeeToAdd->id) > 0){
-        curNode->left = insertEmployeeToTree(curNode->left,employeeToAdd);
-    } else {
-        curNode->right = insertEmployeeToTree(curNode->right,employeeToAdd);
-    }
-
-    return curNode;
+int compareEmployee(void* e1, void * e2){
+    return strcmp(((Employee*)e1)->id,((Employee*)e2)->id);
 }
 
-void addNewEmployee(EmployeeNode **root) {
+
+void addNewEmployee(Node **root) {
     Employee *employeeToAdd = getEmployeeFromInput();
-    *root = insertEmployeeToTree(*root, employeeToAdd);
+    *root = addNodeToTree(*root, (void *) employeeToAdd, compareEmployee);
 }
 
-void printEmployeeTree(EmployeeNode *curNode){
-    if (curNode == NULL){
-        return;
-    }
 
-    printEmployeeTree(curNode->left);
-    printEmployee(curNode->employee);
-    printEmployeeTree(curNode->right);
-}
 
-void printEmployee(Employee *employee) {
+
+void printEmployee(void *data) {
+    Employee* employee = (Employee*)data;
     int i;
     printf("------------------------------------------------\n");
     printf("First name: %s\n",employee->firstName);
@@ -129,21 +105,7 @@ void printEmployee(Employee *employee) {
     printf("------------------------------------------------\n");
 }
 
-Employee *findEmployeeById(EmployeeNode *curNode, char* id) {
-    if (curNode == NULL){
-        return NULL;
-    }
-
-    if (strcmp(curNode->employee->id,id) > 0){
-        return findEmployeeById(curNode->left,id);
-    } else if (strcmp(curNode->employee->id,id) < 0){
-        return findEmployeeById(curNode->right,id);
-    } else {
-        return curNode->employee;
-    }
-}
-
-void addEmployeeWithGivenNumberOfEmployeesRec(EmployeeList **list, EmployeeNode *curNode, int numberOfEmployees) {
+void addEmployeeWithGivenNumberOfEmployeesRec(EmployeeList **list, Node *curNode, int numberOfEmployees) {
     if (curNode == NULL){
         return;
     }
@@ -151,19 +113,19 @@ void addEmployeeWithGivenNumberOfEmployeesRec(EmployeeList **list, EmployeeNode 
     addEmployeeWithGivenNumberOfEmployeesRec(list,curNode->right,numberOfEmployees);
     addEmployeeWithGivenNumberOfEmployeesRec(list,curNode->left,numberOfEmployees);
 
-    if (curNode->employee->numOfAnimals== numberOfEmployees){
+    if (((Employee*)curNode->data)->numOfAnimals== numberOfEmployees){
         EmployeeListNode *newNode = (EmployeeListNode*) malloc(sizeof(EmployeeListNode));
 
-        newNode->employee = curNode->employee;
+        newNode->employee = (Employee*)curNode->data;
         newNode->next = (*list)->head;
         (*list)->head = newNode;
     }
 }
 
-EmployeeList *findEmployee(EmployeeNode *root) {
+List *findEmployee(Node *root) {
     int input;
     int numberOfEmployees;
-    char stringInput[MAX_INPUT];
+    char stringInput[MAX];
     Employee *e;
 
     EmployeeList *list = (EmployeeList*) malloc (sizeof(EmployeeList));
@@ -176,17 +138,13 @@ EmployeeList *findEmployee(EmployeeNode *root) {
         switch (input) {
             case 1:
                 printf("Enter id:\n");
-                fgets(stringInput,MAX_INPUT,stdin);
+                fgets(stringInput,MAX,stdin);
                 stringInput[strcspn(stringInput,"\n")] = '\0';
-                e = findEmployeeById(root, stringInput);
-                if (!e){
-                    return NULL;
-                }
-                list->head = (EmployeeListNode*) malloc (sizeof(EmployeeListNode));
-                list->head->employee = e;
-                list->head->next = NULL;
-
-                return list;
+                Node node;
+                Employee employee;
+                strcpy(employee.id,stringInput);
+                node.data = (void*)&employee;
+                return findNode(NULL,root,&node,compareEmployee);
             case 2:
                 printf("Enter number of employees:\n");
                 scanf("%d",&numberOfEmployees);
@@ -209,110 +167,21 @@ void printEmployeeList(EmployeeListNode *curNode){
 }
 
 
-EmployeeNode * employeeFindMin(EmployeeNode *t, EmployeeNode **parent) {
-    if (!t) return NULL;
-    if (t->left) {
-        if (parent) *parent = t;
-        return employeeFindMin(t->left, parent);
-    } else {
-        return t;
-    }
-}
-
-EmployeeNode * employeeFindMax(EmployeeNode *t, EmployeeNode **parent) {
-    if (!t) return NULL;
-    if (t->right) {
-        if (parent) *parent = t;
-        return employeeFindMax(t->right, parent);
-    } else {
-        return t;
-    }
-}
-int isEmployeeLeaf(EmployeeNode *node) {
-    return node->left == NULL && node->right == NULL;
-}
-
-EmployeeNode * employeeFind(EmployeeNode *curNode, char *id, EmployeeNode **parent) {
-    if (!curNode) {
-        return NULL;
-    }
-    if (strcmp(id,curNode->employee->id) > 0) {
-        if (parent)
-            *parent = curNode;
-        return employeeFind(curNode->right, id, parent);
-    } else if (strcmp(id,curNode->employee->id) < 0) {
-        if (parent)
-            *parent = curNode;
-        return employeeFind(curNode->left, id, parent);
-    } else {
-        return curNode;
-    }
-}
-
-void freeEmployee(EmployeeNode *node) {
+void freeEmployee(Node *node) {
     int i;
 
-    free(node->employee->firstName);
-    free(node->employee->lastName);
+    Employee* employee = (Employee*)node->data;
 
-    for (i=0; i<node->employee->numOfAnimals; i++){
-        free(node->employee->animalId[i]);
+    free(employee->firstName);
+    free(employee->lastName);
+
+    for (i=0; i<employee->numOfAnimals; i++){
+        free(employee->animalId[i]);
     }
-    free(node->employee->animalId);
-    free(node->employee);
+    free(employee->animalId);
+    free(employee);
     free(node);
 }
-
-EmployeeNode *deleteEmployee(EmployeeNode *root, char *id) {
-    EmployeeNode *node, *node2, *parent;
-    Employee *tempEmployee;
-
-    parent = NULL;
-    node = employeeFind(root, id, &parent);
-    if (!node) {
-        return root;
-    }
-    if (isEmployeeLeaf(node)) {
-        if (parent) {
-            if (parent->left == node) {
-                parent->left=NULL;
-            } else {
-                parent->right=NULL;
-            }
-            freeEmployee(node);
-            return root;
-        } else {
-            freeEmployee(node);
-            return NULL;
-        }
-    }
-    if (node->left) {
-        node2 = employeeFindMax(node->left, NULL);
-        tempEmployee = node->employee;
-        node->employee = node2->employee;
-        node2->employee = tempEmployee;
-        node->left = deleteEmployee(node->left, id);
-    } else {
-        node2 = employeeFindMin(node->right, NULL);
-        tempEmployee = node->employee;
-        node->employee = node2->employee;
-        node2->employee = tempEmployee;
-        node->right = deleteEmployee(node->right, id);
-    }
-    return root;
-}
-
-void deleteAllEmployees(EmployeeNode *curNode) {
-    if (curNode == NULL){
-        return;
-    }
-
-    deleteAllEmployees(curNode->left);
-    deleteAllEmployees(curNode->right);
-
-    free(curNode);
-}
-
 
 void freeList(EmployeeList *l){
     EmployeeListNode *toDelete;

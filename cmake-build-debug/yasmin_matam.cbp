@@ -78,6 +78,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/amichai/CLionProjects/yasmin_matam/Tree.c">
+			<Option target="yasmin_matam"/>
+		</Unit>
+		<Unit filename="/home/amichai/CLionProjects/yasmin_matam/Tree.h">
+			<Option target="yasmin_matam"/>
+		</Unit>
 		<Unit filename="/home/amichai/CLionProjects/yasmin_matam/animal.c">
 			<Option target="yasmin_matam"/>
 		</Unit>

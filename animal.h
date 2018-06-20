@@ -15,7 +15,7 @@
 #define FOOD_TYPE 20
 #define MAX_MEALS_PER_DAY 10
 #define DATE_LENGTH 10
-#define MAX_INPUT 30
+#define MAX 30
 #define NUMBER_OF_POP_FOODS 3
 #define FALSE 0
 #define TRUE 1
@@ -35,47 +35,31 @@ typedef struct {
     int numberOfMealsPerDays;
 } Animal;
 
-typedef struct animalNode {
-    Animal *animal;
-    struct animalNode* left;
-    struct animalNode* right;
-} AnimalNode;
-
-/*  return empty animal tree*/
-AnimalNode* createAnimalTree();
-
+int getNumberOfKids(Node *node);
+int compareAnimal(void* a1, void* a2);
+void freeAnimal(Node *node);
 /*  gets animal from input and ads it to tree   */
-void addNewAnimal(AnimalNode** root);
+void addNewAnimal(Node** root);
 
-/*  prints all animals */
-void printAnimalTree(AnimalNode *curNode);
+void printAnimal(void* data);
 
 /*  returns number of animals with given food type  */
-int animalNumberWithGivenFoodKind(AnimalNode *curNode, char *foodType);
+int animalNumberWithGivenFoodKind(Node *curNode, char *foodType);
 
 /*  prints animals with given birth year*/
-void printAnimalsForGivenBirthYear(AnimalNode *curNode, int year);
+void printAnimalsForGivenBirthYear(Node *curNode, int year);
 
 /*  returns number of animals with given color */
-int animalNumberWithGivenColor(AnimalNode *curNode, char *color);
+int animalNumberWithGivenColor(Node *curNode, char *color);
 
-/*  computes and returns average of kids per animal */
-float averageNumOfChildren(AnimalNode *curNode, int *numNodes);
-
-/*  receives animal id to delete. returns true if animal was deleted, false otherwise   */
-AnimalNode * deleteAnimal(AnimalNode *root, char *id);
 
 /*  return min value node   */
-AnimalNode * animalFindMin(AnimalNode *t, AnimalNode **parent);
+Node * findMin(Node *t, Node **parent);
 
 /*  return max value node   */
-AnimalNode * animalFindMax(AnimalNode *t, AnimalNode **parent);
+Node * findMax(Node *t, Node **parent);
 
-/*  return pointer to animal node if found, null ortherwise   */
-AnimalNode * animalFind(AnimalNode *curNode, char *id, AnimalNode **parent);
-
-void deleteAllAnimals(AnimalNode *curNode);
 
 /*  returns string array containing 3 most popular food's ids*/
-char **threePopularFoods(AnimalNode *root);
+char **threePopularFoods(Node *root);
 #endif

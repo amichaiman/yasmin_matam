@@ -2,14 +2,14 @@
 #include "mainFunctions.h"
 
 int main() {
-    AnimalNode *animalRoot;
-    EmployeeNode *employeeRoot;
-    FoodNode *foodRoot;
+    Node *animalRoot;
+    Node *employeeRoot;
+    Node *foodRoot;
 
 
-    animalRoot = createAnimalTree();
-    employeeRoot= createEmployeeTree();
-    foodRoot = createFoodTree();
+    animalRoot = createTree();
+    employeeRoot= createTree();
+    foodRoot = createTree();
 
     getUserQueries(animalRoot,employeeRoot,foodRoot);
 

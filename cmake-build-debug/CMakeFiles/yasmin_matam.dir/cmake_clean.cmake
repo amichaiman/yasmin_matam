@@ -5,6 +5,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/yasmin_matam.dir/employee.c.o"
   "CMakeFiles/yasmin_matam.dir/food.c.o"
   "CMakeFiles/yasmin_matam.dir/commonFunctions.c.o"
+  "CMakeFiles/yasmin_matam.dir/Tree.c.o"
   "yasmin_matam.pdb"
   "yasmin_matam"
 )

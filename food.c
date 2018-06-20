@@ -1,15 +1,10 @@
 #include "food.h"
-#define MAX_INPUT 30
+#define MAX 30
 
-void printFood(Food *food);
-
-FoodNode *createFoodTree() {
-    return NULL;
-}
 
 Food *getFoodFromInput() {
     Food *food = (Food *) malloc (sizeof(Food));
-    char inputString[MAX_INPUT];
+    char inputString[MAX];
 
     clearBuffer();
 
@@ -28,7 +23,7 @@ Food *getFoodFromInput() {
     clearBuffer();
 
     printf("Enter manufacturer:\n");
-    fgets(inputString,MAX_INPUT+1,stdin);
+    fgets(inputString,MAX+1,stdin);
     inputString[strcspn(inputString,"\n")] = '\0';
 
     food->manufacturer = (char *) malloc ((strlen(inputString)+1)* sizeof(char));
@@ -54,43 +49,19 @@ Food *getFoodFromInput() {
     return food;
 }
 
-FoodNode * insertFoodToTree(FoodNode *curNode, Food *foodToAdd) {
-    if (curNode == NULL){
-        FoodNode* nodeToAdd = (FoodNode*) malloc (sizeof(FoodNode));
-        if (!nodeToAdd){
-            exit(1);
-        }
-        nodeToAdd->food = foodToAdd;
-        nodeToAdd->left = nodeToAdd->right = NULL;
-        return nodeToAdd;
-    }
 
-    if (strcmp(curNode->food->id,foodToAdd->id) > 0){
-        curNode->left = insertFoodToTree(curNode->left,foodToAdd);
-    } else {
-        curNode->right = insertFoodToTree(curNode->right,foodToAdd);
-    }
+int compareFood(void* f1, void* f2){
+    return strcmp(((Food*)f1)->id,((Food*)f2)->id);
 
-    return curNode;
 }
 
-void addNewFood(FoodNode **root) {
+void addNewFood(Node **root) {
     Food *foodToAdd = getFoodFromInput();
-    *root = insertFoodToTree(*root, foodToAdd);
+    *root = addNodeToTree(*root, foodToAdd,compareFood);
 }
 
-void printFoodTree(FoodNode *curNode){
-    if (curNode == NULL){
-        return;
-    }
-
-    printFoodTree(curNode->left);
-    printFood(curNode->food);
-    printFoodTree(curNode->right);
-
-}
-
-void printFood(Food *food) {
+void printFood(void* data) {
+    Food *food = (Food*)data;
     printf("------------------------------------------------\n");
     printf("Id: %s\n",food->id);
     printf("Maufacturer: %s\n",food->manufacturer);
@@ -100,98 +71,9 @@ void printFood(Food *food) {
 }
 
 
-FoodNode * foodFindMin(FoodNode *t, FoodNode **parent) {
-    if (!t) return NULL;
-    if (t->left) {
-        if (parent) *parent = t;
-        return foodFindMin(t->left, parent);
-    } else {
-        return t;
-    }
-}
 
-FoodNode * foodFindMax(FoodNode *t, FoodNode **parent) {
-    if (!t) return NULL;
-    if (t->right) {
-        if (parent) *parent = t;
-        return foodFindMax(t->right, parent);
-    } else {
-        return t;
-    }
-}
-int isFoodLeaf(FoodNode *node) {
-    return node->left == NULL && node->right == NULL;
-}
-
-FoodNode * foodFind(FoodNode *curNode, char *id, FoodNode **parent) {
-    if (!curNode) {
-        return NULL;
-    }
-    if (strcmp(id,curNode->food->id) > 0) {
-        if (parent)
-            *parent = curNode;
-        return foodFind(curNode->right, id, parent);
-    } else if (strcmp(id,curNode->food->id) < 0) {
-        if (parent)
-            *parent = curNode;
-        return foodFind(curNode->left, id, parent);
-    } else {
-        return curNode;
-    }
-}
-
-void freeFood(FoodNode *node) {
-    free(node->food->manufacturer);
-    free(node->food);
+void freeFood(Node *node) {
+    free(((Food*)node->data)->manufacturer);
+    free((Food*)node->data);
     free(node);
-}
-
-FoodNode *deleteFood(FoodNode *root, char *id) {
-    FoodNode *node, *node2, *parent;
-    Food *tempFood;
-
-    parent = NULL;
-    node = foodFind(root, id, &parent);
-    if (!node) {
-        return root;
-    }
-    if (isFoodLeaf(node)) {
-        if (parent) {
-            if (parent->left == node) {
-                parent->left=NULL;
-            } else {
-                parent->right=NULL;
-            }
-            freeFood(node);
-            return root;
-        } else {
-            freeFood(node);
-            return NULL;
-        }
-    }
-    if (node->left) {
-        node2 = foodFindMax(node->left, NULL);
-        tempFood = node->food;
-        node->food = node2->food;
-        node2->food = tempFood;
-        node->left = deleteFood(node->left, id);
-    } else {
-        node2 = foodFindMin(node->right, NULL);
-        tempFood = node->food;
-        node->food = node2->food;
-        node2->food = tempFood;
-        node->right = deleteFood(node->right, id);
-    }
-    return root;
-}
-
-void deleteAllFoods(FoodNode *curNode) {
-    if (curNode == NULL){
-        return;
-    }
-
-    deleteAllFoods(curNode->left);
-    deleteAllFoods(curNode->right);
-
-    freeFood(curNode);
 }

@@ -6,13 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/home/amichai/CLionProjects/yasmin_matam/animal.c
-stdbool.h
+/home/amichai/CLionProjects/yasmin_matam/Tree.c
+stddef.h
 -
+stdlib.h
+-
+Tree.h
+/home/amichai/CLionProjects/yasmin_matam/Tree.h
 animal.h
 /home/amichai/CLionProjects/yasmin_matam/animal.h
-food.h
-/home/amichai/CLionProjects/yasmin_matam/food.h
+
+/home/amichai/CLionProjects/yasmin_matam/Tree.h
+
+/home/amichai/CLionProjects/yasmin_matam/animal.c
+animal.h
+/home/amichai/CLionProjects/yasmin_matam/animal.h
 
 /home/amichai/CLionProjects/yasmin_matam/animal.h
 zconf.h
@@ -53,6 +61,8 @@ animal.h
 /home/amichai/CLionProjects/yasmin_matam/animal.h
 commonFunctions.h
 /home/amichai/CLionProjects/yasmin_matam/commonFunctions.h
+Tree.h
+/home/amichai/CLionProjects/yasmin_matam/Tree.h
 
 /home/amichai/CLionProjects/yasmin_matam/food.c
 food.h
@@ -65,6 +75,8 @@ stdlib.h
 -
 commonFunctions.h
 /home/amichai/CLionProjects/yasmin_matam/commonFunctions.h
+Tree.h
+/home/amichai/CLionProjects/yasmin_matam/Tree.h
 string.h
 -
 
@@ -73,12 +85,6 @@ stdio.h
 -
 mainFunctions.h
 /home/amichai/CLionProjects/yasmin_matam/mainFunctions.h
-animal.h
-/home/amichai/CLionProjects/yasmin_matam/animal.h
-employee.h
-/home/amichai/CLionProjects/yasmin_matam/employee.h
-food.h
-/home/amichai/CLionProjects/yasmin_matam/food.h
 
 /home/amichai/CLionProjects/yasmin_matam/mainFunctions.c
 mainFunctions.h
@@ -87,4 +93,10 @@ mainFunctions.h
 /home/amichai/CLionProjects/yasmin_matam/mainFunctions.h
 stdio.h
 -
+animal.h
+/home/amichai/CLionProjects/yasmin_matam/animal.h
+employee.h
+/home/amichai/CLionProjects/yasmin_matam/employee.h
+food.h
+/home/amichai/CLionProjects/yasmin_matam/food.h
 

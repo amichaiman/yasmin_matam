@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
+  "/home/amichai/CLionProjects/yasmin_matam/Tree.c" "/home/amichai/CLionProjects/yasmin_matam/cmake-build-debug/CMakeFiles/yasmin_matam.dir/Tree.c.o"
   "/home/amichai/CLionProjects/yasmin_matam/animal.c" "/home/amichai/CLionProjects/yasmin_matam/cmake-build-debug/CMakeFiles/yasmin_matam.dir/animal.c.o"
   "/home/amichai/CLionProjects/yasmin_matam/commonFunctions.c" "/home/amichai/CLionProjects/yasmin_matam/cmake-build-debug/CMakeFiles/yasmin_matam.dir/commonFunctions.c.o"
   "/home/amichai/CLionProjects/yasmin_matam/employee.c" "/home/amichai/CLionProjects/yasmin_matam/cmake-build-debug/CMakeFiles/yasmin_matam.dir/employee.c.o"

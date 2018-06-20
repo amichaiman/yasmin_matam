@@ -4,12 +4,14 @@
 #include <zconf.h>
 #include <stdlib.h>
 #include "commonFunctions.h"
+#include "Tree.h"
 #include <string.h>
 
 #define FOOD_ID_LENGTH 20
 #define MAX_BAGS_IN_SUPPLY 10000
 #define MAX_BAG_SIZE 50
 #define MIN_BAG_SIZE 1
+
 
 typedef struct {
     char id[FOOD_ID_LENGTH+1];
@@ -21,12 +23,6 @@ typedef struct {
 
 
 
-typedef struct foodNode {
-    Food *food;
-    struct foodNode* left;
-    struct foodNode* right;
-} FoodNode;
-
 typedef struct foodListNode{
     char id[FOOD_ID_LENGTH+1];
     int count;
@@ -37,22 +33,9 @@ typedef struct {
     FoodListNode * head;
 } FoodList;
 
-FoodNode *createFoodTree();
-void addNewFood(FoodNode **root);
-void printFoodTree(FoodNode *curNode);
-
-/*  receives food id to delete. returns true if food was deleted, false otherwise   */
-FoodNode * deleteFood(FoodNode *root, char *id);
-
-/*  return min value node   */
-FoodNode * foodFindMin(FoodNode *t, FoodNode **parent);
-
-/*  return max value node   */
-FoodNode * foodFindMax(FoodNode *t, FoodNode **parent);
-
-/*  return pointer to food node if found, null ortherwise   */
-FoodNode * foodFind(FoodNode *curNode, char *id, FoodNode **parent);
-
-void deleteAllFoods(FoodNode *curNode);
-
+void addNewFood(Node **root);
+void printFoodTree(Node *curNode);
+int compareFood(void* f1, void* f2);
+void freeFood(Node *node);
+void printFood(void* data);
 #endif

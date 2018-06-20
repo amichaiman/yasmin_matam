@@ -1,225 +1,73 @@
 
 
-#include <stdbool.h>
 #include "animal.h"
-#include "food.h"
-
 Animal *getAnimalFromInput();
 
-AnimalNode *insertAnimalToTree(AnimalNode *curNode, Animal *animalToAdd);
 
-int allDigits(char *s);
-
-void printAnimal(Animal *animal);
-
-void clearBuffer();
-
-void freeAnimal(AnimalNode *node);
-
-FoodListNode *getFoodTypeListNode(FoodListNode *list, char *foodId);
+FoodListNode *getFoodTypeListNode(FoodListNode *curNode, char *foodId);
 
 void sortList(FoodList *list);
 
-AnimalNode *createAnimalTree() {
-    return NULL;
+int compareAnimal(void* a1, void* a2){
+    return strcmp(((Animal*)a1)->id,((Animal*)a2)->id);
 }
 
-void addNewAnimal(AnimalNode **root) {
+void addNewAnimal(Node **root) {
     Animal *animalToAdd = getAnimalFromInput();
-    *root = insertAnimalToTree(*root, animalToAdd);
+    *root = addNodeToTree(*root, (void*)animalToAdd,compareAnimal);
 }
 
-AnimalNode * insertAnimalToTree(AnimalNode *curNode, Animal *animalToAdd) {
-    if (curNode == NULL){
-        AnimalNode* nodeToAdd = (AnimalNode*) malloc (sizeof(AnimalNode));
-        if (!nodeToAdd){
-            exit(1);
-        }
-        nodeToAdd->animal = animalToAdd;
-        nodeToAdd->left = nodeToAdd->right = NULL;
-        return nodeToAdd;
-    }
-
-    if (strcmp(curNode->animal->id,animalToAdd->id) > 0){
-        curNode->left = insertAnimalToTree(curNode->left,animalToAdd);
-    } else {
-        curNode->right = insertAnimalToTree(curNode->right,animalToAdd);
-    }
-
-    return curNode;
-}
-
-void printAnimalTree(AnimalNode *curNode){
-    if (curNode == NULL){
-        return;
-    }
-
-    printAnimalTree(curNode->left);
-    printAnimal(curNode->animal);
-    printAnimalTree(curNode->right);
-}
-
-int animalNumberWithGivenFoodKind(AnimalNode *curNode, char *foodType) {
+int animalNumberWithGivenFoodKind(Node *curNode, char *foodType) {
     int hasFoodKind;
 
     if (curNode == NULL){
         return 0;
     }
 
-    hasFoodKind = strcmp(curNode->animal->foodType,foodType) == 0 ? TRUE : FALSE;
+    hasFoodKind = strcmp(((Animal*)curNode->data)->foodType,foodType) == 0 ? TRUE : FALSE;
 
     return (animalNumberWithGivenFoodKind(curNode->left,foodType) + animalNumberWithGivenFoodKind(curNode->right,foodType)) + hasFoodKind;
 }
 
-int animalNumberWithGivenColor(AnimalNode *curNode, char *color) {
+int animalNumberWithGivenColor(Node *curNode, char *color) {
     int hasColor;
 
     if (curNode == NULL){
         return 0;
     }
 
-    hasColor = strcmp(curNode->animal->color,color) == 0 ? TRUE : FALSE;
+    hasColor = strcmp(((Animal*)curNode->data)->color,color) == 0;
 
     return (animalNumberWithGivenColor(curNode->left,color) + animalNumberWithGivenColor(curNode->right,color)) + hasColor;
 }
 
-void printAnimalsForGivenBirthYear(AnimalNode *curNode, int year) {
+void printAnimalsForGivenBirthYear(Node *curNode, int year) {
     char *animalYear;
 
     if (curNode == NULL){
         return;
     }
-    animalYear = curNode->animal->date;
+    animalYear = ((Animal*)curNode->data)->date;
     printAnimalsForGivenBirthYear(curNode->left,year);
     if (atoi(animalYear+6) == year){
-        printAnimal(curNode->animal);
+        printAnimal(curNode->data);
     }
     printAnimalsForGivenBirthYear(curNode->right,year);
 }
 
-float averageNumOfChildren(AnimalNode *curNode, int *numNodes) {
 
-    float averageLeft;
-    float averageRight;
-
-    int numberOfNodesLeft;
-    int numberOfNodesRight;
-
-    if (curNode == NULL){
-        *numNodes = 0;
-        return 0;
-    }
-
-    averageLeft = averageNumOfChildren(curNode->left,&numberOfNodesLeft);
-    averageRight = averageNumOfChildren(curNode->right,&numberOfNodesRight);
-
-    *numNodes = numberOfNodesLeft + numberOfNodesRight + 1;
-
-
-    return (averageLeft*numberOfNodesLeft + averageRight*numberOfNodesRight +
-            curNode->animal->numberOfKids)/(*numNodes);
-}
-
-AnimalNode * animalFindMin(AnimalNode *t, AnimalNode **parent) {
-    if (!t) return NULL;
-    if (t->left) {
-        if (parent) *parent = t;
-        return animalFindMin(t->left, parent);
-    } else {
-        return t;
-    }
-}
-
-AnimalNode * animalFindMax(AnimalNode *t, AnimalNode **parent) {
-    if (!t) return NULL;
-    if (t->right) {
-        if (parent) *parent = t;
-        return animalFindMax(t->right, parent);
-    } else {
-        return t;
-    }
-}
-int isAnimalLeaf(AnimalNode *node) {
-    return node->left == NULL && node->right == NULL;
-}
-
-AnimalNode * animalFind(AnimalNode *curNode, char *id, AnimalNode **parent) {
-    if (!curNode) {
-        return NULL;
-    }
-    if (strcmp(id,curNode->animal->id) > 0) {
-        if (parent)
-            *parent = curNode;
-        return animalFind(curNode->right, id, parent);
-    } else if (strcmp(id,curNode->animal->id) < 0) {
-        if (parent)
-            *parent = curNode;
-        return animalFind(curNode->left, id, parent);
-    } else {
-        return curNode;
-    }
-}
-
-AnimalNode *deleteAnimal(AnimalNode *root, char *id) {
-    AnimalNode *node, *node2, *parent;
-    Animal *tempAnimal;
-
-    parent = NULL;
-    node = animalFind(root, id, &parent);
-    if (!node) {
-        return root;
-    }
-    if (isAnimalLeaf(node)) {
-        if (parent) {
-            if (parent->left == node) {
-                parent->left=NULL;
-            } else {
-                parent->right=NULL;
-            }
-            freeAnimal(node);
-            return root;
-        } else {
-            freeAnimal(node);
-            return NULL;
-        }
-    }
-    if (node->left) {
-        node2 = animalFindMax(node->left, NULL);
-        tempAnimal = node->animal;
-        node->animal = node2->animal;
-        node2->animal = tempAnimal;
-        node->left = deleteAnimal(node->left, id);
-    } else {
-        node2 = animalFindMin(node->right, NULL);
-        tempAnimal = node->animal;
-        node->animal = node2->animal;
-        node2->animal = tempAnimal;
-        node->right = deleteAnimal(node->right, id);
-    }
-    return root;
-}
-
-void deleteAllAnimals(AnimalNode *curNode) {
-    if (curNode == NULL){
-        return;
-    }
-
-    deleteAllAnimals(curNode->left);
-    deleteAllAnimals(curNode->right);
-
-    free(curNode);
-}
-
-void freeAnimal(AnimalNode *node) {
-    free(node->animal->type);
-    free(node->animal->color);
-    free(node->animal->name);
-    free(node->animal->birthLocation);
-    free(node->animal);
+void freeAnimal(Node *node) {
+    Animal* animalData = (Animal*)(node->data);
+    free(animalData->type);
+    free(animalData->color);
+    free(animalData->name);
+    free(animalData->birthLocation);
+    free(animalData);
     free(node);
 }
 
-void printAnimal(Animal *animal) {
+void printAnimal(void* data) {
+    Animal* animal = (Animal*)data;
     int i;
     printf("------------------------------------------------\n");
     printf("animal type: %s\n",animal->type);
@@ -242,13 +90,13 @@ void printAnimal(Animal *animal) {
 
 Animal *getAnimalFromInput() {
     Animal *animal = (Animal *) malloc (sizeof(Animal));
-    char inputString[MAX_INPUT];
+    char inputString[MAX];
     int i;
 
     clearBuffer();
 
     printf("Enter animal type:\n");
-    fgets(inputString,MAX_INPUT,stdin);
+    fgets(inputString,MAX,stdin);
     inputString[strcspn(inputString,"\n")] = '\0';
 
     animal->type = (char *) malloc ((strlen(inputString)+1)* sizeof(char));
@@ -259,7 +107,7 @@ Animal *getAnimalFromInput() {
     }
 
     printf("Enter animal color:\n");
-    fgets(inputString,MAX_INPUT,stdin);
+    fgets(inputString,MAX,stdin);
     inputString[strcspn(inputString,"\n")] = '\0';
 
     animal->color= (char *) malloc ((strlen(inputString)+1)* sizeof(char));
@@ -271,7 +119,7 @@ Animal *getAnimalFromInput() {
 
 
     printf("Enter animal name:\n");
-    fgets(inputString,MAX_INPUT,stdin);
+    fgets(inputString,MAX,stdin);
     inputString[strcspn(inputString,"\n")] = '\0';
 
     animal->name= (char *) malloc ((strlen(inputString)+1)* sizeof(char));
@@ -304,7 +152,7 @@ Animal *getAnimalFromInput() {
     }
 
     printf("Enter birth location:\n");
-    fgets(inputString,MAX_INPUT,stdin);
+    fgets(inputString,MAX,stdin);
     inputString[strcspn(inputString,"\n")] = '\0';
 
     animal->birthLocation= (char *) malloc ((strlen(inputString)+1)* sizeof(char));
@@ -363,18 +211,18 @@ Animal *getAnimalFromInput() {
 }
 
 /*   created linked list with each food type, and how often it appears   */
-void getFoodCount(AnimalNode *curNode, FoodList *list){
+void getFoodCount(Node *curNode, FoodList *list){
     FoodListNode *currentAnimalsFood;
 
     if (curNode == NULL){
         return;
     }
 
-    currentAnimalsFood = getFoodTypeListNode(list->head,curNode->animal->foodType);
+    currentAnimalsFood = getFoodTypeListNode(list->head,((Animal*)curNode->data)->foodType);
 
     if (currentAnimalsFood == NULL) {
         currentAnimalsFood = (FoodListNode *) malloc (sizeof(FoodListNode));
-        strcpy(currentAnimalsFood->id,curNode->animal->foodType);
+        strcpy(currentAnimalsFood->id,((Animal*)curNode->data)->foodType);
         currentAnimalsFood->count = 1;
         currentAnimalsFood->next = list->head;
         list->head = currentAnimalsFood;
@@ -399,7 +247,7 @@ FoodListNode *getFoodTypeListNode(FoodListNode *curNode, char *foodId) {
 
 }
 
-char **threePopularFoods(AnimalNode *root){
+char **threePopularFoods(Node *root){
     FoodList list;
     char **arrayOfPopularFoods;
     int i;
@@ -426,6 +274,10 @@ char **threePopularFoods(AnimalNode *root){
         }
     }
     return arrayOfPopularFoods;
+}
+
+int getNumberOfKids(Node *node) {
+    return ((Animal*)node->data)->numberOfKids;
 }
 
 void addNode(FoodList *list, FoodListNode *toAdd){

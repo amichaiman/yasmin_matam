@@ -48,5 +48,5 @@ void printEmployeeQueries();
 void printFoodQueries();
 
 /*  wait for queries from user  */
-void getUserQueries(AnimalNode *animalRoot, EmployeeNode *employeeRoot, FoodNode *foodRoot);
+void getUserQueries(Node *animalRoot, Node *employeeRoot, Node *foodRoot);
 #endif
